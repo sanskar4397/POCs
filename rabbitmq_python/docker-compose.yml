@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  consumer:
+    restart: "unless-stopped"
+    build: .
+    command: python consumer.py
+
+    networks:
+      - rabbit_mq_mynetwork
+  
+  publisher:
+    restart: "unless-stopped"
+    build: .
+    command: python publisher.py
+
+    networks:
+      - rabbit_mq_mynetwork
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672             
+    networks:
+      - rabbit_mq_mynetwork   
+
+
+networks:
+  rabbit_mq_mynetwork:
