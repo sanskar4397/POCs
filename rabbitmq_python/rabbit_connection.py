@@ -1,6 +1,6 @@
 import time
 from pika import PlainCredentials, ConnectionParameters, BlockingConnection, exceptions
-
+from pika.adapters.blocking_connection import BlockingChannel
 class Connection:
     __connection = None
     
@@ -33,7 +33,7 @@ class Connection:
         if self.__connection and self.__connection.is_open:
             self.__connection.close()
 
-    def get_channel(self):
+    def get_channel(self) -> BlockingChannel:
         if not self.__connection or self.__connection.is_closed:
             self.get_connection()
         return self.__connection.channel()
